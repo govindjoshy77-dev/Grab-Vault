@@ -1,0 +1,902 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GrabVault</title>
+
+<style>
+/* ===== BASE ===== */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 85px;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #1a1625, #2b1d4d);
+    color: white;
+    overflow-x: hidden;
+}
+
+/* ===== ANIMATED BACKGROUND CANVAS ===== */
+#bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ===== EVERYTHING ABOVE CANVAS ===== */
+.navbar, .main {
+    position: relative;
+    z-index: 1;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(30, 27, 46, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.nav-inner {
+    width: 100%;
+    max-width: 1100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: #a78bfa;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: #bbb;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: #a78bfa;
+}
+
+.nav-btn {
+    padding: 6px 14px;
+    background: #7c3aed;
+    border-radius: 6px;
+    color: white;
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+.nav-btn:hover {
+    background: #6d28d9;
+    transform: scale(1.05);
+}
+
+/* ===== ANIMATED LIGHTNING ===== */
+.bolt {
+    display: inline-block;
+    animation: flash 1s infinite;
+    color: #a78bfa;
+}
+
+@keyframes flash {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+        text-shadow: 0 0 5px #a78bfa;
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scale(1.3);
+        text-shadow: 0 0 20px #7c3aed;
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        text-shadow: 0 0 5px #a78bfa;
+    }
+}
+
+/* ===== MAIN ===== */
+.main {
+    text-align: center;
+    padding: 100px 50px 50px;
+}
+
+/* ===== TITLE ===== */
+.title {
+    font-size: 38px;
+}
+
+.subtitle {
+    color: #aaa;
+}
+
+/* ===== CARDS ===== */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 25px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.card {
+    width: 300px;
+    padding: 20px;
+    border-radius: 12px;
+    background: rgba(30, 27, 46, 0.85);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    transition: 0.3s;
+    animation: fadeIn 0.8s ease;
+}
+
+.card:hover {
+    transform: translateY(-8px) scale(1.02);
+}
+
+/* ===== INPUTS ===== */
+input, select, textarea {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    transition: 0.3s;
+    box-sizing: border-box;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    box-shadow: 0 0 8px #7c3aed;
+}
+
+/* ===== BUTTON ===== */
+button {
+    width: 100%;
+    padding: 10px;
+    background: #7c3aed;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #6d28d9;
+    transform: scale(1.05);
+}
+
+/* ===== SIZE ROW ===== */
+.size-row {
+    display: flex;
+    gap: 10px;
+}
+
+.size-row input {
+    flex: 1;
+}
+
+/* ===== IMAGE PREVIEW ===== */
+.preview-img {
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 8px;
+    display: none;
+}
+
+/* ===== YOUTUBE DOWNLOADER ===== */
+.yt-box {
+    max-width: 800px;
+    margin: 20px auto;
+    background: rgba(30, 27, 46, 0.85);
+    backdrop-filter: blur(8px);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+.yt-box input {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+.yt-row {
+    display: flex;
+    gap: 10px;
+}
+
+.yt-row select {
+    flex: 1;
+}
+
+.yt-row button {
+    flex: 1;
+}
+
+/* ===== FAQ ===== */
+.section {
+    margin-top: 60px;
+}
+
+details {
+    margin: 10px auto;
+    max-width: 600px;
+    background: rgba(30, 27, 46, 0.85);
+    backdrop-filter: blur(8px);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* ===== CONTACT ===== */
+.contact-box {
+    max-width: 350px;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgba(30, 27, 46, 0.85);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    margin-top: 40px;
+    color: #888;
+    text-align: center;
+}
+
+/* ===== ANIMATED FILE SIZE NOTICE ===== */
+.limit-notice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 0 auto 14px;
+    padding: 9px 12px;
+    border: 1px solid rgba(251, 191, 36, 0.45);
+    border-radius: 9px;
+    color: #fde68a;
+    background: linear-gradient(
+        90deg,
+        rgba(120, 53, 15, 0.22),
+        rgba(251, 191, 36, 0.10),
+        rgba(120, 53, 15, 0.22)
+    );
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    box-shadow: 0 0 14px rgba(251, 191, 36, 0.08);
+    animation: limitGlow 2.2s ease-in-out infinite;
+}
+
+.limit-notice .limit-icon {
+    display: inline-block;
+    animation: limitPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes limitGlow {
+    0%, 100% {
+        border-color: rgba(251, 191, 36, 0.35);
+        box-shadow: 0 0 8px rgba(251, 191, 36, 0.05);
+    }
+
+    50% {
+        border-color: rgba(251, 191, 36, 0.8);
+        box-shadow: 0 0 18px rgba(251, 191, 36, 0.18);
+    }
+}
+
+@keyframes limitPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.18);
+    }
+}
+
+/* ===== FAST DASHBOARD ROCKET FLIGHT ===== */
+.rocket-flight {
+    position: relative;
+    height: 66px;
+    width: 100%;
+    max-width: 1100px;
+    margin: 10px auto 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Only one rocket is displayed */
+.rocket {
+    position: absolute;
+    left: -80px;
+    top: 8px;
+    z-index: 2;
+    font-size: 42px;
+    line-height: 1;
+    transform: rotate(45deg);
+    filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.8));
+    animation: rocketFlight 2.2s linear infinite;
+}
+
+/* Rocket flame */
+.rocket::before {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 13px;
+    left: -25px;
+    top: 17px;
+    border-radius: 50% 0 0 50%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        #fb7185 20%,
+        #fb923c 55%,
+        #fde68a 85%,
+        white
+    );
+    filter: blur(2px);
+    transform-origin: right center;
+    animation: rocketFlame 0.08s ease-in-out infinite alternate;
+}
+
+/* Smoke trail */
+.rocket-smoke {
+    position: absolute;
+    left: -100px;
+    top: 27px;
+    width: 100%;
+    height: 24px;
+    z-index: 1;
+    animation: smokeFlight 2.2s linear infinite;
+}
+
+.rocket-smoke span {
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: rgba(210, 196, 255, 0.48);
+    filter: blur(3px);
+    animation: smokePuff 0.65s ease-out infinite;
+}
+
+.rocket-smoke span:nth-child(1) {
+    left: 0%;
+    top: 5px;
+    animation-delay: 0s;
+}
+
+.rocket-smoke span:nth-child(2) {
+    left: 8%;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    animation-delay: 0.12s;
+}
+
+.rocket-smoke span:nth-child(3) {
+    left: 16%;
+    top: 8px;
+    animation-delay: 0.24s;
+}
+
+.rocket-smoke span:nth-child(4) {
+    left: 24%;
+    top: 2px;
+    width: 16px;
+    height: 16px;
+    animation-delay: 0.36s;
+}
+
+.rocket-smoke span:nth-child(5) {
+    left: 32%;
+    top: 7px;
+    animation-delay: 0.48s;
+}
+
+/* Rocket moves quickly from left to right */
+@keyframes rocketFlight {
+    0% {
+        left: -80px;
+        transform: translateY(5px) rotate(45deg);
+    }
+
+    25% {
+        transform: translateY(-5px) rotate(45deg);
+    }
+
+    50% {
+        transform: translateY(4px) rotate(45deg);
+    }
+
+    75% {
+        transform: translateY(-4px) rotate(45deg);
+    }
+
+    100% {
+        left: calc(100% + 80px);
+        transform: translateY(5px) rotate(45deg);
+    }
+}
+
+/* Smoke follows the rocket */
+@keyframes smokeFlight {
+    0% {
+        left: -100%;
+        opacity: 0;
+    }
+
+    5% {
+        opacity: 1;
+    }
+
+    100% {
+        left: 100%;
+        opacity: 0;
+    }
+}
+
+/* Flickering flame */
+@keyframes rocketFlame {
+    from {
+        transform: scaleX(0.8) scaleY(0.8);
+        opacity: 0.75;
+    }
+
+    to {
+        transform: scaleX(1.6) scaleY(1.3);
+        opacity: 1;
+    }
+}
+
+/* Smoke puffs */
+@keyframes smokePuff {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.65;
+    }
+
+    50% {
+        transform: scale(1.4);
+        opacity: 0.45;
+    }
+
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .limit-notice,
+    .limit-icon,
+    .rocket,
+    .rocket-smoke,
+    .rocket-smoke span {
+        animation: none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== ANIMATED BACKGROUND CANVAS ===== -->
+<canvas id="bg-canvas"></canvas>
+
+<div class="navbar">
+    <div class="nav-inner">
+        <div class="logo">GrabVault ⚡</div>
+
+        <!-- FUNCTIONAL NAVIGATION -->
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="#tools">Tools</a>
+            <a href="#faq">FAQ</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </div>
+</div>
+
+<div class="main">
+
+    <div class="title">File Converter ⚡</div>
+
+    <div class="title small-title">
+        All in one <span class="bolt">⚡</span>
+    </div>
+
+    <div class="subtitle">Image • Audio • Video Tools</div>
+
+    <!-- ===== SINGLE FAST MOVING ROCKET ===== -->
+    <div class="rocket-flight" aria-hidden="true">
+        <div class="rocket-smoke">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="rocket">🚀</div>
+    </div>
+
+    <!-- ===== TOOLS SECTION ===== -->
+    <div class="container" id="tools">
+
+        <!-- IMAGE CONVERTER -->
+        <div class="card">
+            <form action="/convert-image/" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <h3>🖼 Image Converter</h3>
+
+                <input type="file" name="file" required>
+
+                <select name="format">
+                    <option value="png">PNG</option>
+                    <option value="jpg">JPG</option>
+                </select>
+
+                <button type="submit">Convert</button>
+            </form>
+        </div>
+
+        <!-- AUDIO CONVERTER -->
+        <div class="card">
+
+            <div class="limit-notice">
+                <span class="limit-icon">⚠️</span>
+                Make sure your audio file is small enough for smooth conversion
+            </div>
+
+            <form action="/convert-audio/" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <h3>🎵 Audio Converter</h3>
+
+                <input type="file" name="file" required>
+
+                <select name="format">
+                    <option value="mp3">MP3</option>
+                    <option value="wav">WAV</option>
+                </select>
+
+                <button type="submit">Convert</button>
+            </form>
+        </div>
+
+        <!-- VIDEO TO AUDIO -->
+        <div class="card">
+
+            <div class="limit-notice">
+                <span class="limit-icon">⚠️</span>
+                Make sure your video file is small enough for smooth extraction
+            </div>
+
+            <form action="/video-to-audio/" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <h3>🎬 Video → Audio</h3>
+
+                <input type="file" name="file" required>
+
+                <select name="format">
+                    <option value="mp3">MP3</option>
+                    <option value="wav">WAV</option>
+                </select>
+
+                <button type="submit">Extract</button>
+            </form>
+        </div>
+
+        <!-- IMAGE RESIZER WITH PREVIEW -->
+        <div class="card">
+            <form action="/resize-image/" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <h3>📐 Image Resizer</h3>
+
+                <input
+                    type="file"
+                    name="file"
+                    accept="image/*"
+                    onchange="previewImage(event)"
+                    required
+                >
+
+                <!-- PREVIEW -->
+                <img id="preview" class="preview-img" />
+
+                <div class="size-row">
+                    <input type="number" name="width" placeholder="Width (px)">
+                    <input type="number" name="height" placeholder="Height (px)">
+                </div>
+
+                <input type="number" name="size" placeholder="Target Size">
+
+                <select name="size_unit">
+                    <option value="kb">KB</option>
+                    <option value="mb">MB</option>
+                </select>
+
+                <button type="submit">Resize</button>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- YOUTUBE DOWNLOADER -->
+    <div class="section">
+        <h2>🎥 YouTube Downloader (Under Construction 🚧)</h2>
+
+        <form action="/download-youtube/" method="POST" class="yt-box">
+            {% csrf_token %}
+
+            <input
+                type="text"
+                name="url"
+                placeholder="Paste YouTube link here..."
+                required
+            >
+
+            <div class="yt-row">
+                <select name="format">
+                    <option value="mp4">MP4 (Video)</option>
+                    <option value="mp3">MP3 (Audio)</option>
+                </select>
+
+                <button type="submit">Download</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- FAQ -->
+    <div class="section" id="faq">
+        <h2>FAQ</h2>
+
+        <details>
+            <summary>Is this free?</summary>
+            <p>Yes, fully free.</p>
+        </details>
+
+        <details>
+            <summary>Are files saved?</summary>
+            <p>No permanent storage.</p>
+        </details>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="section" id="contact">
+        <h2>Contact</h2>
+
+        <div class="contact-box">
+            <input type="text" placeholder="Name">
+            <input type="email" placeholder="Email">
+            <textarea placeholder="Message"></textarea>
+            <button>Send</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2026 GrabVault • We Gotchu 💜
+        <p>Developed By G J</p>
+    </div>
+
+</div>
+
+<!-- ===== IMAGE PREVIEW SCRIPT ===== -->
+<script>
+function previewImage(event) {
+    const preview = document.getElementById('preview');
+    const file = event.target.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = "block";
+        };
+
+        reader.readAsDataURL(file);
+    }
+}
+</script>
+
+<!-- ===== ANIMATED BACKGROUND SCRIPT ===== -->
+<script>
+(function () {
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let W, H, particles;
+
+    const PARTICLE_COUNT = 55;
+
+    const COLORS = [
+        'rgba(167,139,250,',
+        'rgba(124,58,237,',
+        'rgba(139,92,246,',
+        'rgba(196,181,253,',
+        'rgba(91,33,182,'
+    ];
+
+    function rand(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    function createParticle() {
+        return {
+            x: rand(0, W),
+            y: rand(0, H),
+            r: rand(3, 18),
+            dx: rand(-0.35, 0.35),
+            dy: rand(-0.35, 0.35),
+            alpha: rand(0.06, 0.22),
+            dAlpha: rand(0.001, 0.004) * (Math.random() < 0.5 ? 1 : -1),
+            color: COLORS[Math.floor(Math.random() * COLORS.length)],
+            pulseOffset: rand(0, Math.PI * 2)
+        };
+    }
+
+    function initParticles() {
+        particles = [];
+
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+            particles.push(createParticle());
+        }
+    }
+
+    function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+
+        initParticles();
+    }
+
+    function drawConnections() {
+        const MAX_DIST = 160;
+
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const a = particles[i];
+                const b = particles[j];
+
+                const dx = a.x - b.x;
+                const dy = a.y - b.y;
+
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < MAX_DIST) {
+                    const opacity = (1 - dist / MAX_DIST) * 0.08;
+
+                    ctx.beginPath();
+                    ctx.strokeStyle = `rgba(167,139,250,${opacity})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.moveTo(a.x, a.y);
+                    ctx.lineTo(b.x, b.y);
+                    ctx.stroke();
+                }
+            }
+        }
+    }
+
+    let frame = 0;
+
+    function animate() {
+        ctx.clearRect(0, 0, W, H);
+        frame++;
+
+        drawConnections();
+
+        particles.forEach(p => {
+
+            // Breathe / pulse alpha
+            p.alpha += p.dAlpha;
+
+            if (p.alpha > 0.25 || p.alpha < 0.04) {
+                p.dAlpha *= -1;
+            }
+
+            // Move
+            p.x += p.dx;
+            p.y += p.dy;
+
+            // Wrap around edges
+            if (p.x < -p.r * 2) p.x = W + p.r;
+            if (p.x > W + p.r * 2) p.x = -p.r;
+            if (p.y < -p.r * 2) p.y = H + p.r;
+            if (p.y > H + p.r * 2) p.y = -p.r;
+
+            // Pulse size
+            const pulse = 1 + 0.12 * Math.sin(frame * 0.02 + p.pulseOffset);
+            const radius = p.r * pulse;
+
+            // Draw glow
+            const grd = ctx.createRadialGradient(
+                p.x,
+                p.y,
+                0,
+                p.x,
+                p.y,
+                radius * 2.5
+            );
+
+            grd.addColorStop(0, p.color + p.alpha + ')');
+            grd.addColorStop(1, p.color + '0)');
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, radius * 2.5, 0, Math.PI * 2);
+            ctx.fillStyle = grd;
+            ctx.fill();
+
+            // Draw core
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+            ctx.fillStyle = p.color + (p.alpha * 1.5) + ')';
+            ctx.fill();
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', resize);
+
+    resize();
+    animate();
+})();
+</script>
+
+</body>
+</html>
+```

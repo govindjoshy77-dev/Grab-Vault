@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GrabVault</title>
+
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- BACKGROUND TEXT -->
+<div class="bg-text">
+    <span>CONVERT</span>
+    <span>EDIT</span>
+    <span>DOWNLOAD</span>
+    <span>GRABVAULT</span>
+    <span>FAST</span>
+    <span>MEDIA</span>
+    <span>TOOLS</span>
+    <span>AI</span>
+</div>
+
+<!-- NAV -->
+<nav class="navbar">
+    <div class="logo">GrabVault</div>
+    <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#features">Features</a>
+        <a href="#stats">Stats</a>
+        <a href="#about">About</a>
+        <a href="{% url 'dashboard' %}" class="btn">Dashboard</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+    <div class="hero-content" data-aos="fade-up">
+        <h1>Next-Gen Media Tools ⚡</h1>
+        <p>Convert • Resize • Extract • Download • Optimize</p>
+
+        <div class="hero-buttons">
+            <a href="{% url 'dashboard' %}" class="btn">Start Now</a>
+            <a href="#features" class="btn secondary">Explore</a>
+        </div>
+    </div>
+</header>
+
+<!-- STATS -->
+<section id="stats" class="stats">
+    <div class="stat-box" data-aos="zoom-in">
+        <h2>10K+</h2>
+        <p>Files Processed</p>
+    </div>
+    <div class="stat-box" data-aos="zoom-in" data-aos-delay="100">
+        <h2>99%</h2>
+        <p>Success Rate</p>
+    </div>
+    <div class="stat-box" data-aos="zoom-in" data-aos-delay="200">
+        <h2>Fast ⚡</h2>
+        <p>Processing Speed</p>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="features">
+    <h2 data-aos="fade-up">Powerful Features</h2>
+
+    <div class="feature-grid">
+
+        <div class="card" data-aos="fade-up">
+            <h3>🎵 Audio Convert</h3>
+            <p>Convert between formats instantly.</p>
+        </div>
+
+        <div class="card" data-aos="fade-up" data-aos-delay="100">
+            <h3>🎬 Video Extract</h3>
+            <p>Extract high quality audio.</p>
+        </div>
+
+        <div class="card" data-aos="fade-up" data-aos-delay="200">
+            <h3>📐 Image Resize</h3>
+            <p>Control size and compression.</p>
+        </div>
+
+        <div class="card" data-aos="fade-up">
+            <h3>⚡ Lightning Fast</h3>
+            <p>Optimized backend performance.</p>
+        </div>
+
+        <div class="card" data-aos="fade-up" data-aos-delay="100">
+            <h3>🔒 Secure</h3>
+            <p>No files stored permanently.</p>
+        </div>
+
+        <div class="card" data-aos="fade-up" data-aos-delay="200">
+            <h3>💻 Clean UI</h3>
+            <p>Minimal and easy interface.</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- CALL TO ACTION -->
+<section class="cta" data-aos="fade-up">
+    <h2>Start Using GrabVault Now 🚀</h2>
+    <a href="{% url 'dashboard' %}" class="btn big">Go to Dashboard</a>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="about" data-aos="fade-up">
+    <h2>About</h2>
+    <p>GrabVault is built for speed, simplicity, and power.</p>
+</section>
+
+<footer>
+    <p>© 2026 GrabVault</p>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+AOS.init({ duration: 1000, once: true });
+</script>
+
+</body>
+</html>

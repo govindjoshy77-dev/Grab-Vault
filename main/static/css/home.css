@@ -1,0 +1,218 @@
+/* ===== BASE ===== */
+body {
+    margin: 0;
+    padding-top: 70px;
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at top, #1e1a2e, #120d1f);
+    color: white;
+    overflow-x: hidden;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 15px 40px;
+
+    background: rgba(20,15,35,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.logo {
+    color: #8b5cf6;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.nav-links a {
+    margin: 0 12px;
+    color: #bbb;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: #ec4899;
+}
+
+/* ===== HERO ===== */
+.hero {
+    height: 75vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 42px;
+    background: linear-gradient(90deg, #8b5cf6, #ec4899);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.hero p {
+    color: #bbb;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+    background: linear-gradient(90deg, #8b5cf6, #ec4899);
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: white;
+    text-decoration: none;
+    margin: 10px;
+    display: inline-block;
+    box-shadow: 0 0 15px rgba(139,92,246,0.4);
+    transition: 0.3s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(236,72,153,0.6);
+}
+
+.secondary {
+    background: transparent;
+    border: 1px solid #8b5cf6;
+}
+
+/* ===== STATS ===== */
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    padding: 30px 20px;
+    flex-wrap: wrap;
+}
+
+.stat-box {
+    background: #1f1a2e;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    min-width: 140px;
+    box-shadow: 0 0 15px rgba(236,72,153,0.25);
+    transition: 0.3s;
+}
+
+.stat-box:hover {
+    transform: translateY(-5px);
+}
+
+/* ===== FEATURES ===== */
+.features {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: #1f1a2e;
+    padding: 18px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 20px rgba(139,92,246,0.6);
+}
+
+/* ===== CTA ===== */
+.cta {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.btn.big {
+    padding: 12px 30px;
+}
+
+/* ===== ABOUT ===== */
+.about {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+/* ===== FOOTER ===== */
+footer {
+    text-align: center;
+    padding: 15px;
+    color: #777;
+}
+
+/* ===== FLOATING BACKGROUND TEXT ===== */
+.bg-text {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.bg-text span {
+    position: absolute;
+    font-size: 70px;
+    font-weight: 700;
+
+    /* 🔥 Gradient text */
+    background: linear-gradient(90deg, #8b5cf6, #ec4899);
+    -webkit-background-clip: text;
+    color: transparent;
+
+    /* 🔥 Visibility fix */
+    opacity: 0.22;
+
+    /* 🔥 Glow */
+    text-shadow: 0 0 25px rgba(139,92,246,0.5);
+
+    animation: floatText 20s linear infinite;
+}
+
+/* RANDOM POSITIONS */
+.bg-text span:nth-child(1){ left: 10%; animation-duration: 18s; }
+.bg-text span:nth-child(2){ left: 70%; animation-duration: 22s; }
+.bg-text span:nth-child(3){ left: 30%; animation-duration: 25s; }
+.bg-text span:nth-child(4){ left: 80%; animation-duration: 19s; }
+.bg-text span:nth-child(5){ left: 50%; animation-duration: 23s; }
+.bg-text span:nth-child(6){ left: 20%; animation-duration: 21s; }
+.bg-text span:nth-child(7){ left: 60%; animation-duration: 26s; }
+.bg-text span:nth-child(8){ left: 40%; animation-duration: 24s; }
+
+/* ANIMATION */
+@keyframes floatText {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.22;
+    }
+    80% {
+        opacity: 0.22;
+    }
+    100% {
+        transform: translateY(-120vh) rotate(360deg);
+        opacity: 0;
+    }
+}
